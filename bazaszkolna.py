@@ -46,7 +46,7 @@ class Tutor:
         self.group = group
 
     def data_tutor(self):
-        return({self.name: self.group})
+        return({"name" :self.name, "group": self.group})
 
 class Studnet:
     def __init__(self, name, group):
@@ -66,13 +66,10 @@ def if_tutor():
     if if_tutor == "no":
         pass
 
-commands = ("End", "Teacher", "Tutor", "Student")
+commands = ("Teacher", "Tutor", "Student", "Information", "End")
 
 while True:
-    print(teachers_list)
-    print(student_list)
-    print(tutor_list)
-    print(group_list)
+    print(commands)
     command = input("User type: ").title()
     if not command in commands:
         continue
@@ -130,7 +127,13 @@ while True:
 
 
     if command == "Student":
-        name = ("Name: ").title()
-        group = ("Your class: ")
-        stu = Studnet("name", "group")
+        name = input("Name: ").title()
+        group = input("Your class: ")
+        stu = Studnet(name, group)
         student_list.append(stu.data_student())
+
+    if command == "Information":
+        print(f"Teachers list: {teachers_list}")
+        print(f"student list {student_list}")
+        print(f"Tutor list: {tutor_list}")
+        print(f"Class list: {group_list}")
