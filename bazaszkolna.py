@@ -31,30 +31,30 @@ student_list = []
 tutor_list = []
 group_list = []
 
-class Teacher:
+class Teacher: #Nauczyciel
     def __init__(self, name, group, subject):
         self.name = name
         self.subject = subject
         self.group = group
 
-    def data_teacher(self):
-        return({name: {"group": self.group, "subject": self.subject}})
+    def data_teacher(self): #format
+        return{name: {"group": self.group, "subject": self.subject}}
 
-class Tutor:
+class Tutor: #Wychowawca
     def __init__(self, name, group):
         self.name = name
         self.group = group
 
-    def data_tutor(self):
-        return({"name" :self.name, "group": self.group})
+    def data_tutor(self): #format
+        return{"name" :self.name, "group": self.group}
 
-class Studnet:
+class Studnet: #Uczeń
     def __init__(self, name, group):
         self.name = name
         self.group = group
 
-    def data_student(self):
-        return({"name": self.name, "group": self.group})
+    def data_student(self): #format
+        return{"name": self.name, "group": self.group}
 
 
 def if_tutor():
@@ -81,7 +81,14 @@ while True:
         class_list = []
         subject_list = []
         name = input("Your name: ")
-        if_tutor()
+        list = ["yes"]
+        if_tutor = input('If you are tutor? [yes/no]: ').lower()
+        if if_tutor == "yes":
+            your_class = input("Your class: ")
+            tutor = Tutor(name, your_class)
+            tutor_list.append(tutor.data_tutor())
+            if not your_class in class_list:
+                class_list.append(your_class)
 
         if name in teachers_list:
             print("User saved.")
@@ -102,6 +109,9 @@ while True:
                     break
                 class_list.append(group)
 
+                if not group in group_list:
+                    group_list.append(group)
+
             teach = Teacher(name, class_list, subject_list)
             teachers_list.append(teach.data_teacher())
 
@@ -114,6 +124,8 @@ while True:
             if name in tutor_list:
                 tutor_list.append(["name"] + "group")
                 group = input("Add class: ")
+                if not group in group_list:
+                    group_list.append(group)
 
             else:
                 group = input("Your class: ")
@@ -129,6 +141,8 @@ while True:
     if command == "Student":
         name = input("Name: ").title()
         group = input("Your class: ")
+        if not group in group_list:
+            group_list.append(group)
         stu = Studnet(name, group)
         student_list.append(stu.data_student())
 
