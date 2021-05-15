@@ -49,13 +49,12 @@ class Tutor:
         return({self.name: self.group})
 
 class Studnet:
-    def __init__(self, name, group, subject):
+    def __init__(self, name, group):
         self.name = name
         self.group = group
-        self.subject = subject
 
     def data_student(self):
-        return({"name": self.name})
+        return({"name": self.name, "group": self.group})
 
 
 def if_tutor():
@@ -131,6 +130,7 @@ while True:
 
 
     if command == "Student":
-        stu = Studnet("name", "group", "subject")
-        print(stu.data_student())
-        print(Studnet)
+        name = ("Name: ").title()
+        group = ("Your class: ")
+        stu = Studnet("name", "group")
+        student_list.append(stu.data_student())
