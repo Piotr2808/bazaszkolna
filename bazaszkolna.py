@@ -57,40 +57,34 @@ class Studnet: #Uczeń
         return{"name": self.name, "group": self.group}
 
 
-def if_tutor():
-    list = ["yes", "no"]
-    if_tutor = input('If you are tutor? [yes/no]: ').lower()
-    if if_tutor == "yes":
-        your_class = ("Your class: ")
-        tutor_list.append({name: your_class})
-    if if_tutor == "no":
-        pass
-
 commands = ("Teacher", "Tutor", "Student", "Information", "End")
 
 while True:
     print(commands)
     command = input("User type: ").title()
+
     if not command in commands:
         continue
 
-    if command == "End":
+    if command == "End": #Kończy program
         break
 
     if command == "Teacher":
-        class_list = []
-        subject_list = []
+        class_list = [] #lista klas
+        subject_list = [] # lista przedmiotów
         name = input("Your name: ")
         list = ["yes"]
-        if_tutor = input('If you are tutor? [yes/no]: ').lower()
+        if_tutor = input('If you are tutor? [yes/no]: ').lower() #Opcja dodanien wychowacy z koendy nauczyciela
+
         if if_tutor == "yes":
             your_class = input("Your class: ")
             tutor = Tutor(name, your_class)
             tutor_list.append(tutor.data_tutor())
+
             if not your_class in class_list:
                 class_list.append(your_class)
 
-        if name in teachers_list:
+        if name in teachers_list: #Aby nie powielać
             print("User saved.")
 
         if not name in teachers_list:
@@ -107,46 +101,56 @@ while True:
 
                 if not group:
                     break
-                class_list.append(group)
+                class_list.append(group) # Dodaje klasy do listy klas.
 
                 if not group in group_list:
-                    group_list.append(group)
+                    group_list.append(group) # Dodaje klasy do globalnej listy klas.
 
-            teach = Teacher(name, class_list, subject_list)
+            teach = Teacher(name, class_list, subject_list) # Dodaje do lity nauczycieli w foramcie.
             teachers_list.append(teach.data_teacher())
 
     if command == "Tutor":
-        search = ["Search Tutor", "Add Tutor"]
+        search = ["Search Tutor", "Add Tutor"] # Opcja wyszukania lub dodania wychowawcy klasy
         search_ = input("Function: [Search Tutor/Add Tutor: ").title()
-        if search_ == "Add Tutor":
+
+        if search_ == "Add Tutor": # Dodaje naucziciela
             name = input("Tutor name: ")
 
-            if name in tutor_list:
+            if name in tutor_list: # Jeśli wychowaca jest już na liście, a chcemy mu przydzielić klasę.
                 tutor_list.append(["name"] + "group")
                 group = input("Add class: ")
+
+                if not group in group_list:
+                    group_list.append(group) # Dodaje do globalnej listy klas
+
+            else: # Jeśli nie ma na liście wychowawcy.
+                group = input("Your class: ")
+
                 if not group in group_list:
                     group_list.append(group)
 
-            else:
-                group = input("Your class: ")
                 tutor = Tutor(name, group)
                 tutor_list.append(tutor.data_tutor())
-        if search_ == "Search Tutor":
+
+        if search_ == "Search Tutor": # Do poprawki wyszukiwarka
             print(tutor_list)
             class_ = input("Class: ")
+
             if class_ in tutor_list:
                 print("Class: Tutor")
 
 
     if command == "Student":
-        name = input("Name: ").title()
+        name = input("Name: ").title() # Dodaje ucznia
         group = input("Your class: ")
-        if not group in group_list:
+
+        if not group in group_list: # Dodaje klase do globalnej listy klas.
             group_list.append(group)
+
         stu = Studnet(name, group)
         student_list.append(stu.data_student())
 
-    if command == "Information":
+    if command == "Information": # Wszystki informacje.
         print(f"Teachers list: {teachers_list}")
         print(f"student list {student_list}")
         print(f"Tutor list: {tutor_list}")
