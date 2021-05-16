@@ -26,36 +26,38 @@ jeśli phrase to nauczyciel: wypisz wychowawców wszystkich klas, z którym ma z
 jeśli phrase to uczeń: wypisz wszystkie lekcje, które ma uczeń i nauczycieli, którzy je prowadzą
 '''
 
-teachers_list = []
+teachers_list = [] # Listy
 student_list = []
 tutor_list = []
 group_list = []
 
-class Teacher: #Nauczyciel
+class Teacher: # Nauczyciel
     def __init__(self, name, group, subject):
         self.name = name
         self.subject = subject
         self.group = group
 
-    def data_teacher(self): #format
+    def data_teacher(self): # Format
         return{name: {"group": self.group, "subject": self.subject}}
 
-class Tutor: #Wychowawca
+    def add_teacher(self):
+        pass
+
+class Tutor: # Wychowawca
     def __init__(self, name, group):
         self.name = name
         self.group = group
 
-    def data_tutor(self): #format
+    def data_tutor(self): # Format
         return{"name" :self.name, "group": self.group}
 
-class Studnet: #Uczeń
+class Studnet: # Uczeń
     def __init__(self, name, group):
         self.name = name
         self.group = group
 
-    def data_student(self): #format
+    def data_student(self): # Format
         return{"name": self.name, "group": self.group}
-
 
 commands = ("Teacher", "Tutor", "Student", "Information", "End")
 
@@ -66,12 +68,12 @@ while True:
     if not command in commands:
         continue
 
-    if command == "End": #Kończy program
+    if command == "End": # Kończy program
         break
 
     if command == "Teacher":
-        class_list = [] #lista klas
-        subject_list = [] # lista przedmiotów
+        class_list = [] # Lista klas
+        subject_list = [] # Lista przedmiotów
         name = input("Your name: ")
         list = ["yes"]
         if_tutor = input('If you are tutor? [yes/no]: ').lower() #Opcja dodanien wychowacy z koendy nauczyciela
@@ -84,7 +86,7 @@ while True:
             if not your_class in class_list:
                 class_list.append(your_class)
 
-        if name in teachers_list: #Aby nie powielać
+        if name in teachers_list: # Aby nie powielać
             print("User saved.")
 
         if not name in teachers_list:
@@ -132,13 +134,8 @@ while True:
                 tutor = Tutor(name, group)
                 tutor_list.append(tutor.data_tutor())
 
-        if search_ == "Search Tutor": # Do poprawki wyszukiwarka
-            print(tutor_list)
-            class_ = input("Class: ")
-
-            if class_ in tutor_list:
-                print("Class: Tutor")
-
+        if search_ == "Search Tutor": # Do poprawki wyszukiwarka wychowawców
+            print(group_list)
 
     if command == "Student":
         name = input("Name: ").title() # Dodaje ucznia
@@ -150,7 +147,7 @@ while True:
         stu = Studnet(name, group)
         student_list.append(stu.data_student())
 
-    if command == "Information": # Wszystki informacje.
+    if command == "Information": # Wszystkie informacje.
         print(f"Teachers list: {teachers_list}")
         print(f"student list {student_list}")
         print(f"Tutor list: {tutor_list}")
