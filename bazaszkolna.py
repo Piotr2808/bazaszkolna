@@ -27,9 +27,44 @@ jeśli phrase to uczeń: wypisz wszystkie lekcje, które ma uczeń i nauczycieli
 '''
 
 komendy = ["Uczeń", "Nauczyciel", "Wychowawca", "Koniec"]
-uczniowie = {}
-nauczyciele = {}
-wychowawcy = {}
+uczniowie = {'Karol': '3',
+             'Ola': '3',
+             'Anka': '4'
+             } # {imie: klasa}
+
+nauczyciele = {'Anka': {'przyroda': ['3']},
+               'Klaudia': {'religia': ['4']},
+                'Artur': {'Niemiecki': ['3']}
+                }
+
+                # {imie: {przedmiot: [klasy]}}
+
+wychowawcy = {'patryk': '3'
+              } # {imie: klasy}
+
+class Uczen:
+    def __init__(self, imie, klasa):
+        self.imie = imie
+        self.klasa = klasa
+
+    def format_uczen(self):
+        return{self.imie: self.klasa}
+
+class Nauczyciel:
+    def __init__(self, imie, przedmiot, klasy):
+        self.imie = imie
+        self.przedmiot = przedmiot
+        self.klasy = klasy
+
+    def format_nauczyciel(self):
+        return{self.imie: {self.przedmiot: self.klasy}}
+
+class Wychowawca:
+    def __init__(self, imie, klasa):
+        self.imie = imie
+        self.klasa = klasa
+    def format_wychowawca(self):
+        return{imie: klasa}
 
 while True:
 
@@ -43,8 +78,8 @@ while True:
             name = input("Imię i nazwisko: ")
             if name:
                 klasa = input("Klasa: ")
-                uczen = {name: klasa}
-                uczniowie.update(uczen)
+                u = Uczen(name, klasa)
+                uczniowie.update(u.format_uczen())
                 print(uczniowie)
             if not name:
                 break
@@ -59,7 +94,8 @@ while True:
                 break
             if klasy:
                 klasy_ += klasy
-                nauczyciele.update({imie: {przedmiot: klasy_}})
+                n = Nauczyciel(imie, przedmiot, klasy_)
+                nauczyciele.update(n.format_nauczyciel())
             print(nauczyciele)
 
     if komenda == "Wychowawca":
@@ -67,15 +103,17 @@ while True:
             name = input("Imię i nazwisko: ")
             if name:
                 klasa = input("Wychowawca klasy: ")
-                wychowawca = {name: klasa}
-                wychowawcy.update(wychowawca)
+                w = Wychowawca(name, klasa)
+                wychowawcy.update(w.format_wychowawca())
                 print(wychowawcy)
             if not name:
                 break
-
+polecenia = ["Uczeń", "Nauczyciel", "Nazwa Klasy", "Wychowawca"]
 while True:
-    komenda = input("Komenda: ")
-    if komenda == "nazwa klasy":
+    print(polecenia)
+    komenda = input("Komenda: ").title()
+
+    if komenda == "Nazwa Klasy":
         klasa = input("Szukam klasy: ")
         for k, value in wychowawcy.items():
             if klasa == value:
@@ -83,8 +121,38 @@ while True:
         for i, value in uczniowie.items():
             if klasa == value:
                 print(f"Uczeń: {i}")
-    if komenda == "wychowawca":
-        wychowawca = input("Wychowawca: ")
+
+    if komenda == "Wychowawca":
+        print(wychowawcy.keys())
+        wychowawca = input("Imię wychowawcy: ")
+        for imie, klasa in wychowawcy.items():
+            if wychowawca == imie:
+                print(f"Wychowawca klasy {klasa}: {wychowawca}")
+                for i, grupa in uczniowie.items():
+                    if klasa == grupa:
+                        print(f"uczniowie klasy: {i}")
+
+    if komenda == "Nauczyciel":
+        nauczyciel = input("Nauczyciel: ")
+        if nauczyciel:
+            for n in nauczyciele[nauczyciel].values():
+                klasy = n
+                for klasa in klasy:
+                    for w, value in wychowawcy.items():
+                        if klasa == value:
+                            print(f"Wychowawcy w klasach {klasa}: {w}")
+
+    if komenda == "Uczeń": # uczeń: wypisz wszystkie lekcje, które ma uczeń i nauczycieli, którzy je prowadzą
+        print(uczniowie.keys())
+        uczen = input("Imie ucznia: ")
+        for u, value in uczniowie.items():
+            if uczen == u:
+                lista = []
+                lista.append(value)
+                for i, values in nauczyciele.items():
+                    for przedmiot, klasy in values.items():
+                        if lista == klasy:
+                            print(f"Nauczyciel: {i}\nprzedmiot: {przedmiot}")
 
     if komenda == "":
         break
